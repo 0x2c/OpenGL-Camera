@@ -13,7 +13,7 @@ void Cube::draw() {
     
     glPushMatrix();
     // Want to convert row-major to col-major with transpose
-    glLoadMatrixf(Matrix4::transpose(m2w).getPointer());
+    glMultMatrixf(Matrix4::transpose(m2w).getPointer());
     
     glBegin(GL_QUADS);
     glColor3f(0.0, 1.0, 0.0); // Green

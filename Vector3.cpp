@@ -65,7 +65,11 @@ GLfloat Vector3::length() const {
 
 void Vector3::normalize() {
     GLfloat l = length();
-    if( l != 0 ) scale(1 / l);
+    if( l != 0 ) {
+        x = x / l;
+        y = y / l;
+        z = z / l;
+    }
 }
 
 void Vector3::print(std::string comment) {
