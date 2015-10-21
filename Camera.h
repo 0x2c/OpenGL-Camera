@@ -12,7 +12,7 @@ public:
     Matrix4& getMatrix(void);
     Matrix4& getInverseMatrix(void);
     void update(void);
-    void lookAt(Vector3&, Vector3&, Vector3&);
+    void lookAt(const Vector3&, const Vector3&, const Vector3&);
     
     Vector3 e;   //Center of Projection
     Vector3 d;   //Look At
