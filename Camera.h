@@ -13,6 +13,7 @@ public:
     Matrix4& getInverseMatrix(void);
     void update(void);
     void lookAt(const Vector3&, const Vector3&, const Vector3&);
+    void reset();
     
     Vector3 e;   //Center of Projection
     Vector3 d;   //Look At

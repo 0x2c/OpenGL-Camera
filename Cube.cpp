@@ -10,6 +10,7 @@ Matrix4& Cube::getMatrix() {
 }
 
 void Cube::draw() {
+    glEnable(GL_LIGHTING);
     
     glPushMatrix();
     // Want to convert row-major to col-major with transpose

@@ -30,7 +30,6 @@ void InputController::keyboardCallback(unsigned char key, int mouse_x, int mouse
             case 'Z': getInstance()->poly->translateZ(direction); break;
             case 's': getInstance()->poly->scale(0.95, 0.95, 0.95); break; // smaller
             case 'S': getInstance()->poly->scale(1.05, 1.05, 1.05); break; // bigger
-
         }
     }
 }
@@ -40,6 +39,14 @@ void InputController::skeyboardCallback(int key, int mouse_x, int mouse_y) {
         case GLUT_KEY_F1:
             getInstance()->mode = DisplayMode::CUBE;
             getInstance()->poly = &Globals::cube;
+            break;
+        case GLUT_KEY_F2:
+            getInstance()->mode = DisplayMode::HOUSE1;
+            getInstance()->poly = &Globals::house;
+            break;
+        case GLUT_KEY_F3:
+            getInstance()->mode = DisplayMode::HOUSE2;
+            getInstance()->poly = &Globals::house; // Since house is only drawn once
             break;
         default:
             return;

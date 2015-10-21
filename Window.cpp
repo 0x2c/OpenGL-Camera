@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Globals.h"
 #include "Window.h"
+#include "InputController.h"
 
 int Window::width = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
@@ -26,20 +27,26 @@ void Window::reshapeCallback(int w, int h) {
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
 void Window::displayCallback() {
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_LIGHTING);
     glMatrixMode(GL_MODELVIEW);
-    
-    Globals::camera.lookAt(
-        Vector3(0.0, 0.0, 20.f),
-        Vector3(0.0, 0.0, 0.0),
-        Vector3(0.0, 1.f, 0.0)
-    );
-    
     glPushMatrix();
-    glLoadMatrixf(Matrix4::transpose(Globals::camera.getInverseMatrix()).getPointer());
+    switch( InputController::getInstance()->mode ) {
+
+        case DisplayMode::HOUSE1:
+            Globals::camera.lookAt(Vector3(0,24.14, 24.14), Vector3(0,0,0), Vector3(0,1,0));
+            break;
+        case DisplayMode::HOUSE2:
+            Globals::camera.lookAt(Vector3(-28.33,11.66,23.33), Vector3(-5,0,0), Vector3(0,1,0.5));
+            break;
+
+        case DisplayMode::CUBE:
+            Globals::camera.reset();
+            break;
+    }
     
-    Globals::cube.draw();
+    glLoadMatrixf( Matrix4::transpose(Globals::camera.getInverseMatrix()).getPointer());
+    InputController::getInstance()->poly->draw();
     
     glPopMatrix();
     glFlush();

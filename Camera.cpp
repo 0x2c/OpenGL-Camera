@@ -1,17 +1,21 @@
 #include "Camera.h"
 
 Camera::Camera() {
-    c.identity();
-    
+    reset();
+}
+
+Camera::~Camera() {}
+
+
+void Camera::reset() {
     e = Vector3(0.0, 0.0, 20.f);
     d = Vector3(0.0, 0.0, 0.0);
     up = Vector3(0.0, 1.f, 0.0);
 
+    c.identity();
     c.makeIdentity().setTranslate(Vector3(e.x, e.y, e.z));
     ci.makeIdentity().setTranslate(Vector3(e.x, e.y, -e.z));
 }
-
-Camera::~Camera() {}
 
 Matrix4& Camera::getMatrix() {
     return c;
