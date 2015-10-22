@@ -46,8 +46,19 @@ void InputController::skeyboardCallback(int key, int mouse_x, int mouse_y) {
             break;
         case GLUT_KEY_F3:
             getInstance()->mode = DisplayMode::HOUSE2;
-            getInstance()->poly = &Globals::house; // Since house is only drawn once
+            getInstance()->poly = &Globals::house;
             break;
+        case GLUT_KEY_F4:
+            getInstance()->mode = DisplayMode::BUNNY;
+            getInstance()->poly = &Globals::bunny;
+            break;
+        case GLUT_KEY_F5:
+            getInstance()->mode = DisplayMode::DRAGON;
+            getInstance()->poly = &Globals::dragon;
+            break;
+        case GLUT_KEY_F6:
+            getInstance()->mode = DisplayMode::BEAR;
+            getInstance()->poly = &Globals::bear;
         default:
             return;
     }

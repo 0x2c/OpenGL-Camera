@@ -6,7 +6,10 @@
 enum DisplayMode {
     CUBE = 0,
     HOUSE1 = 1,
-    HOUSE2 = 2
+    HOUSE2 = 2,
+    BUNNY = 3,
+    DRAGON = 4,
+    BEAR = 5
 };
 
 class InputController {

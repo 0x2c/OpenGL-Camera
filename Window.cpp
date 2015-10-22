@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Globals.h"
 #include "Window.h"
-#include "InputController.h"
 
 int Window::width = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
@@ -39,8 +38,10 @@ void Window::displayCallback() {
         case DisplayMode::HOUSE2:
             Globals::camera.lookAt(Vector3(-28.33,11.66,23.33), Vector3(-5,0,0), Vector3(0,1,0.5));
             break;
-
         case DisplayMode::CUBE:
+        case DisplayMode::BUNNY:
+        case DisplayMode::DRAGON:
+        case DisplayMode::BEAR:
             Globals::camera.reset();
             break;
     }

@@ -32,20 +32,24 @@ void Camera::update() {
     x = up.cross(z);
     x.normalize();
     y = z.cross(x);
+    
     Matrix4 Ri = c = Matrix4({
         {x.x, y.x, z.x, 0.0},
         {x.y, y.y, z.y, 0.0},
         {x.z, y.z, z.z, 0.0},
         {0.0, 0.0, 0.0, 1.f}
     });
+    Ri.makeTranspose();
+    
     Matrix4 Ti = Matrix4({
         {1.f, 0.0, 0.0, -e.x},
         {0.0, 1.f, 0.0, -e.y},
         {0.0, 0.0, 1.f, -e.z},
         {0.0, 0.0, 0.0,  1.f}
     });
+    
     c.setTranslate(e);
-    ci = Ri.makeTranspose() * Ti;
+    ci = Ri * Ti;
 }
 
 void Camera::lookAt(const Vector3& e,const Vector3& d,const Vector3& up) {
