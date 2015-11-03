@@ -8,10 +8,6 @@
 
 int main(int argc, char * argv[]) {
     
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        fprintf(stdout, "Current working dir: %s\n", cwd);
-    
     // light source
     float specular[] = { 1.0, 1.0, 1.0, 1.0 };
     float shininess[] = { 100.0 };
