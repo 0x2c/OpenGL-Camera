@@ -6,6 +6,8 @@
 #include "House.h"
 #include "OBJEntity.h"
 #include "InputController.h"
+#include "GUIWindow.h"
+
 
 class Globals {
 public:
@@ -15,6 +17,7 @@ public:
     static OBJEntity bunny;
     static OBJEntity dragon;
     static OBJEntity bear;
+    static GUIWindow gWindow;
 };
 
 

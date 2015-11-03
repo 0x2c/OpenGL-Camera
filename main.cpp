@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <iostream>
 #include <GLUT/glut.h>
+#include <GLUI/glui.h>
 
 #include "Globals.h"
-#include "Window.h"
 
 int main(int argc, char * argv[]) {
-    
+    int winid;
     // light source
     float specular[] = { 1.0, 1.0, 1.0, 1.0 };
     float shininess[] = { 100.0 };
@@ -15,8 +15,8 @@ int main(int argc, char * argv[]) {
     
     glutInit(&argc, argv);      	      	      // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
-    glutInitWindowSize(Window::width, Window::height);      // set initial window size
-    glutCreateWindow("OpenGL Cube");    	      // open window and set window title
+    glutInitWindowSize(GUIWindow::width, GUIWindow::height);      // set initial window size
+    winid = glutCreateWindow("OpenGL Cube");    	      // open window and set window title
     
     glEnable(GL_DEPTH_TEST);            	      // enable depth buffering
     glClear(GL_DEPTH_BUFFER_BIT);       	      // clear depth buffer
@@ -38,11 +38,12 @@ int main(int argc, char * argv[]) {
     glEnable(GL_LIGHT0);
     
     // Install callback functions:
-    glutDisplayFunc(Window::displayCallback);
-    glutReshapeFunc(Window::reshapeCallback);
+    glutDisplayFunc(GUIWindow::displayCallback);
+    glutReshapeFunc(GUIWindow::reshapeCallback);
     glutKeyboardFunc(InputController::keyboardCallback);
     glutSpecialFunc(InputController::skeyboardCallback);
-    glutIdleFunc(Window::idleCallback);
+    
+    Globals::gWindow.init(GLUI_Master.create_glui( "GLUI" ), winid);
     
     glutMainLoop();
 

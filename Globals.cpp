@@ -6,3 +6,4 @@ House Globals::house = House();
 OBJEntity Globals::bunny = OBJEntity("./bunny.obj");
 OBJEntity Globals::dragon = OBJEntity("./dragon.obj");
 OBJEntity Globals::bear = OBJEntity("./bear.obj");
+GUIWindow Globals::gWindow = GUIWindow();

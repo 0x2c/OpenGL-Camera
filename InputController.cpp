@@ -5,7 +5,7 @@ InputController* InputController::instance = NULL;
 
 InputController::InputController() : mode(DisplayMode::CUBE) {
     poly = &Globals::cube;
-};
+}
 
 InputController* InputController::getInstance() {
     if( !instance ) instance = new InputController();
