@@ -11,10 +11,7 @@ void Camera::reset() {
     e = Vector3(0.0, 0.0, 20.f);
     d = Vector3(0.0, 0.0, 0.0);
     up = Vector3(0.0, 1.f, 0.0);
-
-    c.identity();
-    c.makeIdentity().setTranslate(Vector3(e.x, e.y, e.z));
-    ci.makeIdentity().setTranslate(Vector3(e.x, e.y, -e.z));
+    update();
 }
 
 Matrix4& Camera::getMatrix() {
@@ -33,23 +30,14 @@ void Camera::update() {
     x.normalize();
     y = z.cross(x);
     
-    Matrix4 Ri = c = Matrix4({
-        {x.x, y.x, z.x, 0.0},
-        {x.y, y.y, z.y, 0.0},
-        {x.z, y.z, z.z, 0.0},
-        {0.0, 0.0, 0.0, 1.f}
-    });
-    Ri.makeTranspose();
-    
-    Matrix4 Ti = Matrix4({
-        {1.f, 0.0, 0.0, -e.x},
-        {0.0, 1.f, 0.0, -e.y},
-        {0.0, 0.0, 1.f, -e.z},
-        {0.0, 0.0, 0.0,  1.f}
+    c = Matrix4({
+        {x.x, x.y, x.z, 0},
+              {y.x, y.y, y.z, 0},
+              {z.x, z.y, z.z, 0},
+              {e.x, e.y, e.z, 1}
     });
     
-    c.setTranslate(e);
-    ci = Ri * Ti;
+    ci = c.rigidInverse();
 }
 
 void Camera::lookAt(const Vector3& e,const Vector3& d,const Vector3& up) {

@@ -20,6 +20,8 @@ public:
     static void idleCallback(void);
     static void reshapeCallback(int, int);
     static void displayCallback(void);
+    
+    static void controlCallback(int);
 
     static int width;
     static int height;
@@ -27,6 +29,10 @@ public:
 private:
     static int windowID;
     static GLUI * GUIMain;
+    static GLUI_Panel *eyePanel;
+    static GLUI_Panel *lookatPanel;
+    static GLUI_Panel *upPanel;
+    
 };
 
 #endif

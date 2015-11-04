@@ -39,26 +39,32 @@ void InputController::skeyboardCallback(int key, int mouse_x, int mouse_y) {
         case GLUT_KEY_F1:
             getInstance()->mode = DisplayMode::CUBE;
             getInstance()->poly = &Globals::cube;
+            Globals::camera.reset();
             break;
         case GLUT_KEY_F2:
             getInstance()->mode = DisplayMode::HOUSE1;
             getInstance()->poly = &Globals::house;
+            Globals::camera.lookAt(Vector3(0,24.14, 24.14), Vector3(0,0,0), Vector3(0,1,0));
             break;
         case GLUT_KEY_F3:
             getInstance()->mode = DisplayMode::HOUSE2;
             getInstance()->poly = &Globals::house;
+            Globals::camera.lookAt(Vector3(-28.33,11.66,23.33), Vector3(-5,0,0), Vector3(0,1,0.5));
             break;
         case GLUT_KEY_F4:
             getInstance()->mode = DisplayMode::BUNNY;
             getInstance()->poly = &Globals::bunny;
+            Globals::camera.reset();
             break;
         case GLUT_KEY_F5:
             getInstance()->mode = DisplayMode::DRAGON;
             getInstance()->poly = &Globals::dragon;
+            Globals::camera.reset();
             break;
         case GLUT_KEY_F6:
             getInstance()->mode = DisplayMode::BEAR;
             getInstance()->poly = &Globals::bear;
+            Globals::camera.reset();
         default:
             return;
     }

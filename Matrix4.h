@@ -30,6 +30,7 @@ public:
     Matrix4& makeRotateY(GLfloat deg);
     Matrix4& makeRotateZ(GLfloat deg);
     Matrix4& makeRotate(GLfloat deg, Vector3 axis);
+    Matrix4 rigidInverse();
     
     Matrix4& makeScale(GLfloat x, GLfloat y, GLfloat z);
     Matrix4& makeScale(const Vector3&);

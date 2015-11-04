@@ -6,6 +6,9 @@ int GUIWindow::height = 512;   // set window height in pixels here
 
 int GUIWindow::windowID = 0;
 GLUI *GUIWindow::GUIMain = nullptr;
+GLUI_Panel *GUIWindow::eyePanel = nullptr;
+GLUI_Panel *GUIWindow::lookatPanel = nullptr;
+GLUI_Panel *GUIWindow::upPanel = nullptr;
 
 GUIWindow::GUIWindow() {}
 
@@ -13,23 +16,78 @@ GUIWindow::~GUIWindow() {}
 
 // Dependency Injection. If GLUI doesn't exist, use GLUT's bindings
 void GUIWindow::init(GLUI *Gui, int GLUTWindowID) {
-    if( Gui != nullptr ) {
-        GUIMain = Gui;
-        windowID = GLUTWindowID;
-        GUIMain->set_main_gfx_window(windowID);
-        GLUI_Master.set_glutIdleFunc(GUIWindow::idleCallback);
-    } else {
+    if( Gui == nullptr ) {
         glutIdleFunc(GUIWindow::idleCallback);
+        return;
     }
+    GUIMain = Gui;
+    windowID = GLUTWindowID;
+    GUIMain->set_main_gfx_window(windowID);
+    GLUI_Master.set_glutIdleFunc(GUIWindow::idleCallback);
+    
+    new GLUI_StaticText(GUIMain, "Camera Controls");
+    
+    eyePanel = new GLUI_Panel(GUIMain, "Eye");
+    new GLUI_Spinner(eyePanel, "X", GLUI_SPINNER_FLOAT, 10, GUIWindow::controlCallback);
+    new GLUI_Spinner(eyePanel, "Y", GLUI_SPINNER_FLOAT, 10, GUIWindow::controlCallback);
+    new GLUI_Spinner(eyePanel, "Z", GLUI_SPINNER_FLOAT, 10, GUIWindow::controlCallback);
+    
+    lookatPanel = new GLUI_Panel(GUIMain, "Look At");
+    new GLUI_Spinner(lookatPanel, "X", GLUI_SPINNER_FLOAT, 11, GUIWindow::controlCallback);
+    new GLUI_Spinner(lookatPanel, "Y", GLUI_SPINNER_FLOAT, 11, GUIWindow::controlCallback);
+    new GLUI_Spinner(lookatPanel, "Z", GLUI_SPINNER_FLOAT, 11, GUIWindow::controlCallback);
+
+    upPanel = new GLUI_Panel(GUIMain, "Up");
+    new GLUI_Spinner(upPanel, "X", GLUI_SPINNER_FLOAT, 12, GUIWindow::controlCallback);
+    new GLUI_Spinner(upPanel, "Y", GLUI_SPINNER_FLOAT, 12, GUIWindow::controlCallback);
+    new GLUI_Spinner(upPanel, "Z", GLUI_SPINNER_FLOAT, 12, GUIWindow::controlCallback);
 }
 
 void GUIWindow::shutdown() {
+    free(eyePanel);
+    free(upPanel);
+    free(lookatPanel);
+    free(GUIMain);
+}
+
+void GUIWindow::controlCallback(int control) {
+    GLUI_Spinner *p1, *p2, *p3;
+    
+    switch( control ) {
+        case 10:
+            p1 = (GLUI_Spinner *)eyePanel->first_child();
+            p2 = (GLUI_Spinner *)p1->next();
+            p3 = (GLUI_Spinner *)p2->next();
+            Globals::camera.e.x = p1->get_float_val();
+            Globals::camera.e.y = p2->get_float_val();
+            Globals::camera.e.z = p3->get_float_val();
+        break;
+        case 11:
+            p1 = (GLUI_Spinner *)lookatPanel->first_child();
+            p2 = (GLUI_Spinner *)p1->next();
+            p3 = (GLUI_Spinner *)p2->next();
+            Globals::camera.d.x = p1->get_float_val();
+            Globals::camera.d.y = p2->get_float_val();
+            Globals::camera.d.z = p3->get_float_val();
+            break;
+        case 12:
+            p1 = (GLUI_Spinner *)upPanel->first_child();
+            p2 = (GLUI_Spinner *)p1->next();
+            p3 = (GLUI_Spinner *)p2->next();
+            Globals::camera.up.x = p1->get_float_val();
+            Globals::camera.up.y = p2->get_float_val();
+            Globals::camera.up.z = p3->get_float_val();
+            break;
+        default: return;
+    }
     
 }
 
 void GUIWindow::idleCallback(void) {
-    if( glutGetWindow() != windowID )
+    if( GUIMain != nullptr && glutGetWindow() != windowID )
         glutSetWindow(windowID);
+    
+    Globals::camera.update();
     Globals::cube.spin(0.5);
     displayCallback();
 }
@@ -47,23 +105,8 @@ void GUIWindow::displayCallback(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-    switch( InputController::getInstance()->mode ) {
-            
-        case DisplayMode::HOUSE1:
-            Globals::camera.lookAt(Vector3(0,24.14, 24.14), Vector3(0,0,0), Vector3(0,1,0));
-            break;
-        case DisplayMode::HOUSE2:
-            Globals::camera.lookAt(Vector3(-28.33,11.66,23.33), Vector3(-5,0,0), Vector3(0,1,0.5));
-            break;
-        case DisplayMode::CUBE:
-        case DisplayMode::BUNNY:
-        case DisplayMode::DRAGON:
-        case DisplayMode::BEAR:
-            Globals::camera.reset();
-            break;
-    }
     
-    glLoadMatrixf( Matrix4::transpose(Globals::camera.getInverseMatrix()).getPointer());
+    glLoadMatrixf(Globals::camera.getInverseMatrix().getPointer());
     InputController::getInstance()->poly->draw();
     
     glPopMatrix();

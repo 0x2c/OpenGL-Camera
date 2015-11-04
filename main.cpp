@@ -7,7 +7,6 @@
 #include "Globals.h"
 
 int main(int argc, char * argv[]) {
-    int winid;
     // light source
     float specular[] = { 1.0, 1.0, 1.0, 1.0 };
     float shininess[] = { 100.0 };
@@ -16,7 +15,8 @@ int main(int argc, char * argv[]) {
     glutInit(&argc, argv);      	      	      // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     glutInitWindowSize(GUIWindow::width, GUIWindow::height);      // set initial window size
-    winid = glutCreateWindow("OpenGL Cube");    	      // open window and set window title
+    int winid = glutCreateWindow("OpenGL Cube");
+    Globals::gWindow.init( GLUI_Master.create_glui( "GLUI" ), winid);
     
     glEnable(GL_DEPTH_TEST);            	      // enable depth buffering
     glClear(GL_DEPTH_BUFFER_BIT);       	      // clear depth buffer
@@ -42,8 +42,6 @@ int main(int argc, char * argv[]) {
     glutReshapeFunc(GUIWindow::reshapeCallback);
     glutKeyboardFunc(InputController::keyboardCallback);
     glutSpecialFunc(InputController::skeyboardCallback);
-    
-    Globals::gWindow.init(GLUI_Master.create_glui( "GLUI" ), winid);
     
     glutMainLoop();
 

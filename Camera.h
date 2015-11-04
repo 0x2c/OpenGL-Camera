@@ -8,11 +8,11 @@ class Camera {
 public:
     Camera(void);
     ~Camera(void);
-
+    
     Matrix4& getMatrix(void);
     Matrix4& getInverseMatrix(void);
     void update(void);
-    void lookAt(const Vector3&, const Vector3&, const Vector3&);
+    void lookAt(const Vector3& e, const Vector3& d, const Vector3& up);
     void reset();
     
     Vector3 e;   //Center of Projection
